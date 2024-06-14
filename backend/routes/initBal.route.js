@@ -5,7 +5,8 @@ const {
     updateBoc,
     updateCash,
     updateCommercial,
-    updatePeoples
+    updatePeoples,
+    checkBalance
 } = require('../controllers/initBalController');
 
 // Initialize the data
@@ -22,5 +23,8 @@ router.put('/updCommercial', updateCommercial);
 
 //Update Peoples
 router.put('/updPeoples', updatePeoples);
+
+//Check the balance
+router.post('/checkBalance', checkBalance);
 
 module.exports = router;

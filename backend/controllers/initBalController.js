@@ -104,10 +104,39 @@ const updatePeoples = async (req, res) => {
     }
 }
 
+//Check the balance
+const checkBalance = async (req, res) => {
+    try {
+        if (req.body.account === "boc") {
+            const boc = await Boc.findOne();
+            res.json({ amount: boc.amount });
+        }
+        else if (req.body.account === "cash") {
+            const cash = await Cash.findOne();
+            res.json({ amount: cash.amount });
+        }
+        else if (req.body.account === "commercial") {
+            const commercial = await Commercial.findOne();
+            res.json({ amount: commercial.amount });
+        }
+        else if (req.body.account === "peoples") {
+            const peoples = await Peoples.findOne();
+            res.json({ amount: peoples.amount });
+        }
+        else {
+            res.json({ message: "Invalid account" });
+        }
+    }
+    catch (error) {
+        console.error("Error checking balance:", error);
+    }
+}
+
 module.exports = {
     checkData,
     updateBoc,
     updateCash,
     updateCommercial,
-    updatePeoples
+    updatePeoples,
+    checkBalance
 };
