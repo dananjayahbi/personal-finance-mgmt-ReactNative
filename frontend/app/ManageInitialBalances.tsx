@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Picker, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 
 export default function ManageInitialBalancesScreen() {
@@ -10,6 +11,7 @@ export default function ManageInitialBalancesScreen() {
 
   useEffect(() => {
     if (selectedAccount) {
+      // console.log(selectedAccount)
       fetchBalance();
     }
   }, [selectedAccount]);
@@ -20,7 +22,8 @@ export default function ManageInitialBalancesScreen() {
       const response = await axios.post('http://localhost:5000/init/checkBalance', {
         account: selectedAccount,
       });
-      setBalance(response.data.balance);
+      setBalance(response.data.amount);
+      console.log(response.data.amount);
     } catch (error) {
       Alert.alert('Error', 'Failed to fetch balance');
     } finally {
@@ -50,10 +53,13 @@ export default function ManageInitialBalancesScreen() {
 
     setLoading(true);
     try {
-      await axios.post(endpoint, {
+      await axios.put(endpoint, {
         amount,
       });
       Alert.alert('Success', 'Balance updated successfully');
+      // Reset the form
+      setAmount('');
+      setBalance(amount);
     } catch (error) {
       Alert.alert('Error', 'Failed to update balance');
     } finally {
