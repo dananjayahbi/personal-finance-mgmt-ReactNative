@@ -132,11 +132,28 @@ const checkBalance = async (req, res) => {
     }
 }
 
+//Get total balance
+const getTotalBalance = async (req,res) => {
+    try {
+        const boc = await Boc.findOne();
+        const cash = await Cash.findOne();
+        const commercial = await Commercial.findOne();
+        const peoples = await Peoples.findOne();
+
+        const total = boc.amount + cash.amount + commercial.amount + peoples.amount;
+        res.json({ total });
+    }
+    catch (error) {
+        console.error("Error getting total balance:", error);
+    }
+}
+
 module.exports = {
     checkData,
     updateBoc,
     updateCash,
     updateCommercial,
     updatePeoples,
-    checkBalance
+    checkBalance,
+    getTotalBalance
 };
